@@ -1,0 +1,28 @@
+{
+  "name": "vite-crx-template",
+  "version": "0.0.1",
+  "description": "Simple Chrome Extension Vite Starter Template",
+  "scripts": {
+    "dev": "npm run clear && run-p dev:*",
+    "dev:code": "vite build",
+    "dev:content": "vite build --config vite.content.config.ts",
+    "dev:json": "node scripts/monitor.js",
+    "clear": "rimraf local"
+  },
+  "author": "TinssonTai",
+  "devDependencies": {
+    "@types/node": "^18.7.17",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "chokidar": "^3.5.3",
+    "fs-extra": "^10.1.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.0",
+    "vite-plugin-replace": "^0.1.1",
+    "vue": "^3.2.39"
+  },
+  "dependencies": {
+    "element-plus": "^2.2.16"
+  }
+}
