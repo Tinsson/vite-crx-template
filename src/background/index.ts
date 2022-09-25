@@ -1,1 +1,3 @@
-console.log(123)
+import hotReloadClientInit from './hotReload'
+
+hotReloadClientInit()

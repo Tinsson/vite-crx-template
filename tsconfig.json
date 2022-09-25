@@ -15,7 +15,8 @@
     "forceConsistentCasingInFileNames": true,
     "types": [
       "vite/client",
-      "element-plus/global"
+      "element-plus/global",
+      "chrome"
     ],
     "paths": {
       "~/*": ["src/*"]

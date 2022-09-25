@@ -1,13 +1,14 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import hotReloadBackground from './scripts/hot-reload/background'
 
 export const r = (...args: string[]) => resolve(__dirname, '.', ...args)
 
 export const commonConfig = {
   root: r('src'),
   plugins: [
-    Vue()
+    Vue(),
   ],
 }
 
@@ -30,4 +31,8 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    ...commonConfig.plugins,
+    hotReloadBackground()
+  ]
 })

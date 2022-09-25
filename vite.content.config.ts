@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import { r, commonConfig } from './vite.config'
 import { replaceCodePlugin } from 'vite-plugin-replace'
-
+import hotReloadContent from './scripts/hot-reload/content'
 
 // bundling the content script
 export default defineConfig({
@@ -33,6 +33,7 @@ export default defineConfig({
           to: ':host{'
         }
       ]
-    })
+    }),
+    hotReloadContent()
   ]
 })
