@@ -39,6 +39,9 @@
     "element-plus": "^2.2.16"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,vue}": "prettier --write --ignore-unknown"
+    "src/**/*.{js,ts,vue}": [
+      "prettier --write --ignore-unknown",
+      "eslint src --quiet --ext .js,.ts,.vue"
+    ]
   }
 }
