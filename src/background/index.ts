@@ -1,3 +1,5 @@
 import hotReloadClientInit from './hotReload'
 
-hotReloadClientInit()
+if (__DEV__) {
+  hotReloadClientInit()
+}

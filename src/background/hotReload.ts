@@ -57,12 +57,10 @@ const hotReloadClientInit = () => {
           return
         }
         const tabId = currentTab.id
-        chrome.scripting.executeScript(
-          {
-            target: { tabId },
-            files: ['./contentScript/index.js']
-          }
-        )
+        chrome.scripting.executeScript({
+          target: { tabId },
+          files: ['./contentScript/index.js']
+        })
       }
     )
   }

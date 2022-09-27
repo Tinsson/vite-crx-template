@@ -1,15 +1,14 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+import { ref } from 'vue'
 
-  const dialogVisible = ref<boolean>(false)
-  function handleOpen() {
-    dialogVisible.value = true
-  }
+const dialogVisible = ref(false)
+function handleOpen() {
+  dialogVisible.value = true
+}
 
-  const handleClose = () => {
-    dialogVisible.value =false
-  }
-
+const handleClose = () => {
+  dialogVisible.value = false
+}
 </script>
 
 <template>
@@ -26,7 +25,9 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+          <el-button type="primary" @click="dialogVisible = false"
+            >Confirm</el-button
+          >
         </span>
       </template>
     </el-dialog>
@@ -34,15 +35,14 @@
 </template>
 
 <style scoped>
-  .root {
-    position: fixed;
-    top: 68px;
-    right: 36px;
-    z-index: 1000;
-  }
-  .big-text {
-    font-size: 50px;
-    font-weight: bold;
-  }
+.root {
+  position: fixed;
+  top: 68px;
+  right: 36px;
+  z-index: 1000;
+}
+.big-text {
+  font-size: 50px;
+  font-weight: bold;
+}
 </style>
-  

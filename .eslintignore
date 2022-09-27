@@ -1,0 +1,6 @@
+/node_modules/*
+/local/*
+*.d.ts
+vite.*.ts
+.vscode
+/scripts/*
