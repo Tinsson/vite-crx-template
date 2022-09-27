@@ -1,6 +1,6 @@
-import { copy } from 'fs-extra'
-import { watch } from 'chokidar'
-import path from 'path'
+const fs = require('fs-extra')
+const chokidar = require('chokidar')
+const path = require('path')
 const { resolve } = path
 
 const r = (rootPath) => resolve(__dirname, '..', rootPath)
@@ -16,17 +16,17 @@ const target = {
 }
 
 const copuManifest = () => {
-  copy(origin.manifest, target.manifest)
+  fs.copy(origin.manifest, target.manifest)
 }
 
 copuManifest()
 
 const copyAssets = () => {
-  copy(origin.assets, target.assets)
+  fs.copy(origin.assets, target.assets)
 }
 
 copyAssets()
 
-watch([origin.manifest]).on('change', () => {
+chokidar.watch([origin.manifest]).on('change', () => {
   copuManifest()
 })
