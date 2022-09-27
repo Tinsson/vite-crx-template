@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const dialogVisible = ref(false)
+const dialogVisible = ref<boolean>(false)
 function handleOpen() {
   dialogVisible.value = true
 }
