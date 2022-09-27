@@ -7,7 +7,8 @@
     "dev:code": "vite build",
     "dev:content": "vite build --config vite.content.config.ts",
     "dev:copy": "node scripts/monitor.js",
-    "clear": "rimraf local"
+    "clear": "rimraf local",
+    "prepare": "husky install"
   },
   "author": "TinssonTai",
   "devDependencies": {
@@ -39,7 +40,7 @@
     "element-plus": "^2.2.16"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,vue}": [
+    "src/*.{js,ts,vue}": [
       "prettier --write --ignore-unknown",
       "eslint src --quiet --ext .js,.ts,.vue"
     ]
