@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import { r, commonConfig } from './vite.config'
 import { replaceCodePlugin } from 'vite-plugin-replace'
 import hotReloadContent from './scripts/hot-reload/content'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // bundling the content script
 export default defineConfig({
@@ -33,6 +36,12 @@ export default defineConfig({
           to: ':host{'
         }
       ]
+    }),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
     }),
     hotReloadContent()
   ]

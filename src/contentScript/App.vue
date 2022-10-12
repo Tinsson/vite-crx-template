@@ -1,19 +1,33 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import { ElButton, ElDialog } from 'element-plus'
 
-const dialogVisible = ref<boolean>(false)
-function handleOpen() {
-  dialogVisible.value = true
-}
+export default defineComponent({
+  components: {
+    ElButton,
+    ElDialog
+  },
+  setup() {
+    const dialogVisible = ref(false)
+    function handleOpen() {
+      dialogVisible.value = true
+    }
 
-const handleClose = () => {
-  dialogVisible.value = false
-}
+    const handleClose = () => {
+      dialogVisible.value = false
+    }
+    return {
+      dialogVisible,
+      handleClose,
+      handleOpen
+    }
+  }
+})
 </script>
 
 <template>
   <div data-root="true" class="root">
-    <el-button type="primary" @click="handleOpen">Start Test</el-button>
+    <el-button type="danger" @click="handleOpen">Del</el-button>
 
     <el-dialog
       v-model="dialogVisible"
