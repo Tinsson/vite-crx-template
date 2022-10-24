@@ -1,21 +1,21 @@
 const hotReloadClientInit = () => {
-  const bgWs = new WebSocket('ws://127.0.0.1:8801')
-  const contentWs = new WebSocket('ws://127.0.0.1:8802')
+  const bgWs = new WebSocket(`ws://127.0.0.1:${UP_PORT}`)
 
   let isAlive = true
   bgWs.addEventListener('message', (e) => {
-    if (e.data === 'updateCode') {
+    if (e.data === 'UPDATE_BG') {
       bgWs.close()
-      contentWs.close()
       setTimeout(() => {
         chrome.runtime.reload()
       }, 500)
+    } else if (e.data === 'UPDATE_CONTENT_SCRIPT') {
+      reloadContent()
     } else if (e.data === 'heartbeatMonitor') {
       isAlive = true
       const interval = setInterval(() => {
         setTimeout(() => {
           if (!isAlive) {
-            const detectWs = new WebSocket('ws://127.0.0.1:8801')
+            const detectWs = new WebSocket(`ws://127.0.0.1:${UP_PORT}`)
             detectWs.onopen = () => {
               detectWs.close()
               clearInterval(interval)
@@ -32,18 +32,12 @@ const hotReloadClientInit = () => {
     }
   })
 
-  contentWs.addEventListener('message', (e) => {
-    if (e.data === 'updateCode') {
-      reloadContent()
-    }
-  })
-
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.message === 'reload_background_from_content' && !isAlive) {
-      hotReloadClientInit()
-    }
-    sendResponse(true)
-  })
+  // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  //   if (request.message === 'reload_background_from_content' && !isAlive) {
+  //     hotReloadClientInit()
+  //   }
+  //   sendResponse(true)
+  // })
 
   const reloadContent = () => {
     chrome.tabs.query({}, (tabs) => {
@@ -59,5 +53,4 @@ const hotReloadClientInit = () => {
     })
   }
 }
-
-export default hotReloadClientInit
+hotReloadClientInit()

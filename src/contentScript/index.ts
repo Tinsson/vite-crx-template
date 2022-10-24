@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
-import './hotRefresh'
 ;(() => {
   const rootIdName = 'vite_crx_content_script'
   const beforeRoot = document.querySelector(`#${rootIdName}`)

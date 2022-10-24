@@ -2,12 +2,10 @@ import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import hotReloadBackground from './scripts/hot-reload/background'
-import { __DEV__ } from './const'
+import { __DEV__, outputDir } from './const'
 import eslintPlugin from 'vite-plugin-eslint'
 
 export const r = (...args: string[]) => resolve(__dirname, '.', ...args)
-
-console.log(__DEV__)
 
 export const commonConfig = {
   root: r('src'),
@@ -25,19 +23,20 @@ export const commonConfig = {
 export default defineConfig({
   ...commonConfig,
   build: {
-    watch: {},
+    watch: __DEV__ ? {} : null,
     cssCodeSplit: false,
     emptyOutDir: false,
     sourcemap: false,
-    outDir: r('local'),
+    outDir: r(outputDir),
     rollupOptions: {
       input: {
         background: r('src/background/index.ts'),
+        popup: r('src/popup/index.ts')
       },
       output: {
         entryFileNames: '[name]/index.js',
         extend: true,
-        format: 'iife'
+        format: 'es',
       },
     },
   },

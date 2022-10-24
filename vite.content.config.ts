@@ -5,16 +5,17 @@ import hotReloadContent from './scripts/hot-reload/content'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { __DEV__, outputDir } from './const'
 
 // bundling the content script
 export default defineConfig({
   ...commonConfig,
   build: {
-    watch: {},
+    watch: __DEV__ ? {} : null,
     cssCodeSplit: false,
     emptyOutDir: false,
     sourcemap: false,
-    outDir: r('local/contentScript'),
+    outDir: r(`${outputDir}/contentScript`),
     rollupOptions: {
       input: {
         contentScript: r('src/contentScript/index.ts'),

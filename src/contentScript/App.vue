@@ -27,7 +27,7 @@ export default defineComponent({
 
 <template>
   <div data-root="true" class="root">
-    <el-button type="danger" @click="handleOpen">Del</el-button>
+    <el-button type="danger" @click="handleOpen">Del1</el-button>
 
     <el-dialog
       v-model="dialogVisible"
