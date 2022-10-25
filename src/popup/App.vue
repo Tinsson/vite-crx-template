@@ -3,7 +3,7 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const counter = ref(1)
+    const counter = ref<number>(1)
     return {
       counter
     }

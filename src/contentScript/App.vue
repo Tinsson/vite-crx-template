@@ -8,7 +8,7 @@ export default defineComponent({
     ElDialog
   },
   setup() {
-    const dialogVisible = ref(false)
+    const dialogVisible = ref<boolean>(false)
     function handleOpen() {
       dialogVisible.value = true
     }

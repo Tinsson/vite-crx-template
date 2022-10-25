@@ -15,6 +15,7 @@ specifiers:
   eslint-plugin-vue: ^9.5.1
   fs-extra: ^10.1.0
   husky: ^8.0.1
+  idb: ^7.1.0
   lint-staged: ^13.0.3
   npm-run-all: ^4.1.5
   prettier: ^2.7.1
@@ -30,6 +31,7 @@ specifiers:
 
 dependencies:
   element-plus: 2.2.16_vue@3.2.39
+  idb: 7.1.0
 
 devDependencies:
   '@types/chrome': 0.0.197
@@ -1513,6 +1515,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /idb/7.1.0:
+    resolution: {integrity: sha512-Wsk07aAxDsntgYJY4h0knZJuTxM73eQ4reRAO+Z1liOh8eMCJ/MoDS8fCui1vGT9mnjtl1sOu3I2i/W1swPYZg==}
+    dev: false
 
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
