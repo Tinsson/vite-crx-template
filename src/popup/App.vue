@@ -4,20 +4,26 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup() {
     const counter = ref<number>(1)
+    const handleClick = () => {
+      counter.value++
+    }
+
     return {
-      counter
+      counter,
+      handleClick
     }
   }
 })
 </script>
 
 <template>
-  <div data-root="true" class="root">test</div>
+  <div data-root="true" class="root" @click="handleClick">test</div>
   <div>{{ counter }}</div>
 </template>
 
 <style scoped>
 .root {
-  font-size: 18px;
+  font-size: 20px;
+  color: #000;
 }
 </style>

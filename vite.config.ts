@@ -12,6 +12,11 @@ export const commonConfig = {
   define: {
     __DEV__,
   },
+  resolve: {
+    alias: {
+      '~/': `${r('src')}/`,
+    },
+  },
   plugins: [
     Vue(),
     eslintPlugin({
@@ -34,6 +39,7 @@ export default defineConfig({
         popup: r('src/popup/index.ts')
       },
       output: {
+        assetFileNames: '[name].[ext]',
         entryFileNames: '[name]/index.js',
         extend: true,
         format: 'es',
