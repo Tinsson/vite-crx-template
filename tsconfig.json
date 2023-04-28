@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "target": "es2016",
-    "lib": ["DOM", "ESNext"],
     "strict": false,
     "esModuleInterop": true,
     "incremental": false,
     "skipLibCheck": true,
-    "jsx": "preserve",
+    "noEmit": true,
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "types": [
       "vite/client",
-      "element-plus/global",
-      "chrome"
+      "chrome",
     ],
-    "paths": {
-      "~/*": ["src/*"]
-    }
   },
-  "exclude": ["dist", "node_modules"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules", "local"]
 }

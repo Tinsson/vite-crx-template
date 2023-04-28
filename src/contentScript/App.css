@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  position: fixed;
+  top: 68px;
+  right: 36px;
+  z-index: 1000;
+}

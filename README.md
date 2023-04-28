@@ -6,7 +6,7 @@
 
 - 🚀 支持V3版本的manifest
 - 🖥 支持background,contentScript,popup的热更新
-- 📦 vite + vue3 + elementplus
+- 📦 vite + react + tailwind
 
 ## 开发
 

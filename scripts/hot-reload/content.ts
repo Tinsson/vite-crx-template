@@ -3,7 +3,7 @@ import WebSocket from 'ws'
 import { bgUpdatePort, __DEV__ } from '../../const'
 
 const hotReloadContent = (): Plugin => {
-  let wsClient = null
+  let wsClient: any = null
   let isReady = false
   const connectWs = () => {
     try {
@@ -29,6 +29,7 @@ const hotReloadContent = (): Plugin => {
     writeBundle() {
       // 通过socket触发reload
       if (wsClient && isReady) {
+        console.log('contentScript bundle after update')
         wsClient.send('UPDATE_CONTENT_SCRIPT')
       }
     }

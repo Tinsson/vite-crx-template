@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import { WebSocketServer } from 'ws'
+import { Server } from 'ws'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { bgUpdatePort, __DEV__ } from '../../const'
@@ -8,7 +8,8 @@ const hotReloadBackground = (): Plugin => {
   let wss: any = null
   // 初始化websocket链接用于监听
   const initSocket = () => {
-    wss = new WebSocketServer({ port: bgUpdatePort });
+    console.log(bgUpdatePort)
+    wss = new Server({ port: bgUpdatePort });
     wss.on('connection', function connection(ws) {
       // 启动心跳监听，便于重连
       ws.send('heartbeatMonitor')
@@ -51,6 +52,7 @@ const hotReloadBackground = (): Plugin => {
     writeBundle() {
       // 通过socket触发reload
       if (wss !== null) {
+        console.log('background or popup bundle after update')
         wss.clients.forEach((ws) => {
           ws.send('UPDATE_BG')
         })

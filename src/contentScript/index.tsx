@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
-import 'element-plus/dist/index.css'
-import App from './App.vue'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+
 ;(() => {
   const rootIdName = 'vite_crx_content_script'
   const beforeRoot = document.querySelector(`#${rootIdName}`)
@@ -19,6 +19,7 @@ import App from './App.vue'
   shadowDOM.appendChild(root)
   document.body.appendChild(container)
 
-  const app = createApp(App)
-  app.mount(root)
+  ReactDOM.createRoot(root as HTMLElement).render(
+    <App />
+  )
 })()

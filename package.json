@@ -15,35 +15,41 @@
   "devDependencies": {
     "@types/chrome": "^0.0.197",
     "@types/node": "^18.7.17",
-    "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "@typescript-eslint/parser": "^5.38.0",
-    "@vitejs/plugin-vue": "^3.1.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/ws": "^8.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "@vitejs/plugin-react-swc": "^3.0.0",
     "chokidar": "^3.5.3",
     "cross-env": "^7.0.3",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.5.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
     "fs-extra": "^10.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.8.3",
-    "unplugin-auto-import": "^0.11.2",
-    "unplugin-vue-components": "^0.22.8",
-    "vite": "^3.1.0",
-    "vite-plugin-eslint": "^1.8.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
     "vite-plugin-replace": "^0.1.1",
-    "vue": "^3.2.39",
-    "ws": "^8.9.0"
+    "ws": "^8.13.0"
   },
   "dependencies": {
-    "element-plus": "^2.2.16",
-    "idb": "^7.1.0"
+    "-": "^0.0.1",
+    "D": "^1.0.0",
+    "autoprefixer": "^10.4.14",
+    "idb": "^7.1.0",
+    "postcss": "^8.4.23",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.2"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,vue}": "eslint src --quiet --ext .js,.ts,.vue"
+    "src/**/*.{js,ts,tsx}": "eslint src --quiet --ext .js,.ts,.tsx"
   }
 }
