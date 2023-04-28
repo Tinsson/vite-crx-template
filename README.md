@@ -28,6 +28,6 @@ pnpm build
 
 生成环境，代码放在根目录 `extension` 文件夹下
 
-## 入群交流
-<img src="https://img01.yzcdn.cn/upload_files/2022/10/24/FuwLuT7WwQXQS8vVOc2B7zxVhjzF.jpeg" width="50%">
+## 有问题可直接加V交流
+<img src="https://img01.yzcdn.cn/upload_files/2022/11/17/Fu-vmW4Yirglm_Z6YA9-3mrjcPXH.jpg" width="50%">
 
