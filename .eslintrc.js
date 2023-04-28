@@ -1,36 +1,14 @@
 module.exports = {
-  overrides: [
-    {
-      files: ['*.vue'],
-      parser: 'vue-eslint-parser',
-      parserOptions: {
-        parser: '@typescript-eslint/parser'
-      },
-      rules: {
-        'no-unused-vars': 'off',
-        'no-undef': 'off',
-        '@typescript-eslint/no-unused-vars': 'off'
-      }
-    }
-  ],
+  env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
-    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
+    'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  root: true,
-  env: {
-    browser: true,
-    es2021: true,
-    node: true
-  },
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  plugins: ['react-refresh'],
   rules: {
-    'no-console': 'warn',
-    'no-undefined': 'off',
-    'no-mixed-spaces-and-tabs': 'error',
-    'vue/no-unused-vars': 'error'
-  }
+    'react-refresh/only-export-components': 'warn',
+  },
 }
