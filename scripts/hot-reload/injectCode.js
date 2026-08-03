@@ -39,17 +39,16 @@ const hotReloadClientInit = () => {
   //   sendResponse(true)
   // })
 
-  const reloadContent = () => {
-    chrome.tabs.query({}, (tabs) => {
-      const currentTab = tabs.find((tab) => tab.active)
-      if (!currentTab || currentTab.url.indexOf('chrome') === 0) {
-        return
-      }
-      const tabId = currentTab.id
-      chrome.scripting.executeScript({
-        target: { tabId },
-        files: ['./contentScript/index.js']
-      })
+  const reloadContent = async () => {
+    const tabs = await chrome.tabs.query({})
+    const currentTab = tabs.find((tab) => tab.active)
+    if (!currentTab || currentTab.url.indexOf('chrome') === 0) {
+      return
+    }
+    const tabId = currentTab.id
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['./contentScript/index.js']
     })
   }
 }

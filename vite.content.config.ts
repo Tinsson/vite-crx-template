@@ -1,11 +1,31 @@
 import { defineConfig } from 'vite'
-import { r, commonConfig } from './vite.config'
-import { replaceCodePlugin } from 'vite-plugin-replace'
-import hotReloadContent from './scripts/hot-reload/content'
+import type { Plugin } from 'vite'
+import { r, commonConfig } from './vite.config.ts'
+import hotReloadContent from './scripts/hot-reload/content.ts'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { __DEV__, outputDir } from './const'
+import { __DEV__, outputDir } from './const.ts'
+
+const contentScriptCss = (): Plugin => ({
+  name: 'vite-content-script-css',
+  apply: 'build',
+  enforce: 'post',
+  generateBundle(_options, bundle) {
+    let styleCss: { fileName: string; source: string } | null = null
+    for (const file of Object.values(bundle)) {
+      if (file.type === 'asset' && file.fileName.endsWith('.css')) {
+        styleCss = file as { fileName: string; source: string }
+        break
+      }
+    }
+    if (styleCss) {
+      styleCss.source = styleCss.source.replace(/:root(?=\s*\{)/g, ':host')
+    } else {
+      this.emitFile({ type: 'asset', fileName: 'style.css', source: '' })
+    }
+  }
+})
 
 // bundling the content script
 export default defineConfig({
@@ -18,31 +38,24 @@ export default defineConfig({
     outDir: r(`${outputDir}/contentScript`),
     rollupOptions: {
       input: {
-        contentScript: r('src/contentScript/index.ts'),
+        contentScript: r('src/contentScript/index.ts')
       },
       output: {
         assetFileNames: '[name].[ext]',
         entryFileNames: 'index.js',
         extend: true,
         format: 'iife'
-      },
-    },
+      }
+    }
   },
   plugins: [
     ...commonConfig.plugins,
-    replaceCodePlugin({
-      replacements: [
-        {
-          from: /:root\{/g,
-          to: ':host{'
-        }
-      ]
-    }),
+    contentScriptCss(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     hotReloadContent()
   ]

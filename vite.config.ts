@@ -1,28 +1,23 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import hotReloadBackground from './scripts/hot-reload/background'
-import { __DEV__, outputDir } from './const'
-import eslintPlugin from 'vite-plugin-eslint'
+import hotReloadBackground from './scripts/hot-reload/background.ts'
+import { __DEV__, outputDir } from './const.ts'
 
-export const r = (...args: string[]) => resolve(__dirname, '.', ...args)
+export const r = (...args: string[]) =>
+  resolve(import.meta.dirname, '.', ...args)
 
 export const commonConfig = {
   root: r('src'),
   define: {
-    __DEV__,
+    __DEV__
   },
   resolve: {
     alias: {
-      '~/': `${r('src')}/`,
-    },
+      '~/': `${r('src')}/`
+    }
   },
-  plugins: [
-    Vue(),
-    eslintPlugin({
-      include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue']
-    })
-  ],
+  plugins: [Vue()]
 }
 
 export default defineConfig({
@@ -42,12 +37,9 @@ export default defineConfig({
         assetFileNames: '[name].[ext]',
         entryFileNames: '[name]/index.js',
         extend: true,
-        format: 'es',
-      },
-    },
+        format: 'es'
+      }
+    }
   },
-  plugins: [
-    ...commonConfig.plugins,
-    hotReloadBackground()
-  ]
+  plugins: [...commonConfig.plugins, hotReloadBackground()]
 })

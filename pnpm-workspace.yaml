@@ -1,0 +1,2 @@
+minimumReleaseAgeExclude:
+  - unplugin-auto-import@21.1.0

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import WebSocket from 'ws'
-import { bgUpdatePort, __DEV__ } from '../../const'
+import { bgUpdatePort, __DEV__ } from '../../const.ts'
 
 const hotReloadContent = (): Plugin => {
   let wsClient = null

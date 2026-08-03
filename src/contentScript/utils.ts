@@ -10,22 +10,13 @@ export const onMessage = (taskId: string, callback) => {
       } else {
         sendResponse(result)
       }
+      return true
     }
   })
 }
 
 export const sendMessage = (taskId: string, params: any) => {
-  return new Promise((resolve) => {
-    chrome.runtime.sendMessage(
-      {
-        taskId,
-        params
-      },
-      (result) => {
-        resolve(result)
-      }
-    )
-  })
+  return chrome.runtime.sendMessage({ taskId, params })
 }
 
 export const getCache = async (keyName: string): Promise<any> => {

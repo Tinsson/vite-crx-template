@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
-    "lib": ["DOM", "ESNext"],
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "target": "ES2022",
+    "lib": ["DOM", "ES2022"],
     "strict": false,
     "esModuleInterop": true,
     "incremental": false,
     "skipLibCheck": true,
     "jsx": "preserve",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,7 +19,7 @@
       "chrome"
     ],
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"]
     }
   },
   "exclude": ["dist", "node_modules"]

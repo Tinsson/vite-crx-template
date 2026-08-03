@@ -2,7 +2,7 @@ import type { Plugin, ResolvedConfig } from 'vite'
 import { WebSocketServer } from 'ws'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { bgUpdatePort, __DEV__ } from '../../const'
+import { bgUpdatePort, __DEV__ } from '../../const.ts'
 
 const hotReloadBackground = (): Plugin => {
   let wss: any = null
@@ -44,7 +44,7 @@ const hotReloadBackground = (): Plugin => {
     transform(code, id) {
       if (id.indexOf('background/index.ts') > 0 && __DEV__) {
         let injectDevCode = `\nconst UP_PORT = ${bgUpdatePort}\n`
-        injectDevCode += readFileSync(resolve(__dirname, 'injectCode.js'), 'utf-8')
+        injectDevCode += readFileSync(resolve(import.meta.dirname, 'injectCode.js'), 'utf-8')
         return code + injectDevCode
       }
     },

@@ -79,7 +79,7 @@ class CrxIndexDB {
         return {
           result: res
         }
-      } catch (e) {
+      } catch {
         return {
           result: null
         }
@@ -91,7 +91,7 @@ class CrxIndexDB {
         return {
           result: res
         }
-      } catch (e) {
+      } catch {
         return {
           result: null
         }
@@ -103,7 +103,7 @@ class CrxIndexDB {
         return {
           result: res
         }
-      } catch (e) {
+      } catch {
         return {
           result: null
         }
@@ -124,7 +124,7 @@ class CrxIndexDB {
           })
         }
       })
-    } catch (error) {
+    } catch {
       return false
     }
   }

@@ -1,9 +1,11 @@
-const fs = require('fs-extra')
-const chokidar = require('chokidar')
-const path = require('path')
-const { resolve } = path
+import fs from 'fs-extra'
+import chokidar from 'chokidar'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const r = (rootPath) => resolve(__dirname, '..', rootPath)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const r = (rootPath) => path.resolve(__dirname, '..', rootPath)
 const __DEV__ = process.env.CRX_ENV === 'development'
 const outputDir = __DEV__ ? 'local' : 'extension'
 
