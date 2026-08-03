@@ -14,16 +14,17 @@ class CrxIndexDB {
   private database: string
   private tableName: string
   private db: any
+  private dbPromise: Promise<void>
 
   constructor(database: string, tableName: string) {
     this.database = database
     this.tableName = tableName
-    this.createObjectStore()
+    this.dbPromise = this.createObjectStore()
     this.registerMessage()
   }
 
   public async getValue(keyName: string): Promise<any> {
-    await this.dbReady()
+    await this.dbPromise
     const { tableName } = this
     const tx = this.db.transaction(tableName, 'readonly')
     const store = tx.objectStore(tableName)
@@ -32,7 +33,7 @@ class CrxIndexDB {
   }
 
   public async setValue(keyName: string, value: any) {
-    await this.dbReady()
+    await this.dbPromise
     const { tableName } = this
     const tx = this.db.transaction(tableName, 'readwrite')
     const store = tx.objectStore(tableName)
@@ -44,7 +45,7 @@ class CrxIndexDB {
   }
 
   public async deleteValue(keyName: string) {
-    await this.dbReady()
+    await this.dbPromise
     const { tableName } = this
     const tx = this.db.transaction(tableName, 'readwrite')
     const store = tx.objectStore(tableName)
@@ -54,22 +55,6 @@ class CrxIndexDB {
     }
     await store.delete(keyName)
     return keyName
-  }
-
-  private sleep = (num): Promise<boolean> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true)
-      }, num * 1000)
-    })
-  }
-
-  private async dbReady() {
-    if (!this.db) {
-      await this.sleep(0.5)
-      return await this.dbReady()
-    }
-    return true
   }
 
   private registerMessage() {
@@ -125,7 +110,7 @@ class CrxIndexDB {
         }
       })
     } catch {
-      return false
+      this.db = null
     }
   }
 }

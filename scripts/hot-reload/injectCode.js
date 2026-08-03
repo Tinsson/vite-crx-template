@@ -32,24 +32,17 @@ const hotReloadClientInit = () => {
     }
   })
 
-  // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  //   if (request.message === 'reload_background_from_content' && !isAlive) {
-  //     hotReloadClientInit()
-  //   }
-  //   sendResponse(true)
-  // })
-
   const reloadContent = async () => {
-    const tabs = await chrome.tabs.query({})
-    const currentTab = tabs.find((tab) => tab.active)
-    if (!currentTab || currentTab.url.indexOf('chrome') === 0) {
-      return
+    const tabs = await chrome.tabs.query({ active: true })
+    for (const tab of tabs) {
+      if (tab.id === undefined || !tab.url || tab.url.indexOf('chrome') === 0) {
+        continue
+      }
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['./contentScript/index.js']
+      })
     }
-    const tabId = currentTab.id
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      files: ['./contentScript/index.js']
-    })
   }
 }
 hotReloadClientInit()
