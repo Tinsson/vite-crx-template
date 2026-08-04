@@ -1,5 +1,5 @@
 import { IDBPDatabase, openDB } from 'idb'
-import { onMessage } from './utils'
+import { onMessage } from '../shared/message'
 
 /**
  *  封装indexDB方便background进行本地缓存
@@ -29,7 +29,7 @@ class CrxIndexDB {
     const tx = this.db.transaction(tableName, 'readonly')
     const store = tx.objectStore(tableName)
     const result = await store.get(keyName)
-    return result.value
+    return result?.value
   }
 
   public async setValue(keyName: string, value: any) {
@@ -58,11 +58,10 @@ class CrxIndexDB {
   }
 
   private registerMessage() {
-    onMessage('get-value-bg', async (params): Promise<any> => {
+    onMessage('get-value-bg', async (params) => {
       try {
-        const res = await this.getValue(params.keyName)
         return {
-          result: res
+          result: (await this.getValue(params.keyName)) ?? null
         }
       } catch {
         return {
@@ -70,11 +69,10 @@ class CrxIndexDB {
         }
       }
     })
-    onMessage('set-value-bg', async ({ data }): Promise<any> => {
+    onMessage('set-value-bg', async (params) => {
       try {
-        const res = await this.setValue(data.keyName, data.value)
         return {
-          result: res
+          result: await this.setValue(params.keyName, params.value)
         }
       } catch {
         return {
@@ -82,11 +80,10 @@ class CrxIndexDB {
         }
       }
     })
-    onMessage('del-value-bg', async ({ data }): Promise<any> => {
+    onMessage('del-value-bg', async (params) => {
       try {
-        const res = await this.deleteValue(data.keyName)
         return {
-          result: res
+          result: await this.deleteValue(params.keyName)
         }
       } catch {
         return {

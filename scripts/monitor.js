@@ -23,7 +23,7 @@ const copyManifest = () => {
   fs.copy(origin.manifest, target.manifest)
 }
 const copyIndexHtml = async () => {
-  for (const view of ['popup']) {
+  for (const view of ['popup', 'options', 'sidepanel']) {
     await fs.ensureDir(r(`${outputDir}/${view}`))
     let data = await fs.readFile(r(`src/${view}/index.html`), 'utf-8')
     data = data.replace(/\.ts/g, '.js')

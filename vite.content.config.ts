@@ -2,9 +2,6 @@ import { defineConfig } from 'vite'
 import type { Plugin } from 'vite'
 import { r, commonConfig } from './vite.config.ts'
 import hotReloadContent from './scripts/hot-reload/content.ts'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { __DEV__, outputDir } from './const.ts'
 
 const contentScriptCss = (): Plugin => ({
@@ -48,15 +45,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [
-    ...commonConfig.plugins,
-    contentScriptCss(),
-    AutoImport({
-      resolvers: [ElementPlusResolver()]
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()]
-    }),
-    hotReloadContent()
-  ]
+  plugins: [...commonConfig.plugins, contentScriptCss(), hotReloadContent()]
 })

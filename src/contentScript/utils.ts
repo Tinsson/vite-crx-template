@@ -1,42 +1,12 @@
-export const onMessage = (taskId: string, callback) => {
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    const { params } = request
-    if (request.taskId === taskId) {
-      const result = callback(params)
-      if (result && result.then) {
-        result.then((info) => {
-          sendResponse(info)
-        })
-      } else {
-        sendResponse(result)
-      }
-      return true
-    }
-  })
-}
+import { onMessage, sendMessage, sendMessageToTab } from '~/shared/message'
 
-export const sendMessage = (taskId: string, params: any) => {
-  return chrome.runtime.sendMessage({ taskId, params })
-}
+export { onMessage, sendMessage, sendMessageToTab }
 
-export const getCache = async (keyName: string): Promise<any> => {
-  const res = await sendMessage('get-value-bg', {
-    keyName
-  })
-  return res
-}
+export const getCache = (keyName: string) =>
+  sendMessage('get-value-bg', { keyName })
 
-export const setCache = async (keyName: string, value: any) => {
-  const res = await sendMessage('set-value-bg', {
-    keyName,
-    value
-  })
-  return res
-}
+export const setCache = (keyName: string, value: any) =>
+  sendMessage('set-value-bg', { keyName, value })
 
-export const delCache = async (keyName: string) => {
-  const res = await sendMessage('del-value-bg', {
-    keyName
-  })
-  return res
-}
+export const delCache = (keyName: string) =>
+  sendMessage('del-value-bg', { keyName })

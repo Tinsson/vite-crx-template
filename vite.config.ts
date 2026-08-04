@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import hotReloadBackground from './scripts/hot-reload/background.ts'
 import { __DEV__, outputDir } from './const.ts'
 
@@ -17,7 +20,15 @@ export const commonConfig = {
       '~/': `${r('src')}/`
     }
   },
-  plugins: [Vue()]
+  plugins: [
+    Vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()]
+    })
+  ]
 }
 
 export default defineConfig({
@@ -31,7 +42,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         background: r('src/background/index.ts'),
-        popup: r('src/popup/index.ts')
+        popup: r('src/popup/index.ts'),
+        options: r('src/options/index.ts'),
+        sidepanel: r('src/sidepanel/index.ts')
       },
       output: {
         assetFileNames: '[name].[ext]',

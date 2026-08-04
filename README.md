@@ -5,8 +5,9 @@
 ## Features
 
 - 🚀 支持V3版本的manifest
-- 🖥 支持background,contentScript,popup的热更新
-- 📦 vite + vue3 + elementplus
+- 🖥 支持background,contentScript,popup的热更新，contentScript支持按窗口重注入
+- 📦 vite 8 + vue3 + elementplus + typescript
+- 🔔 统一的类型化消息通信（contentScript ↔ background ↔ popup）
 
 ## 开发
 

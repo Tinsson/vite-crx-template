@@ -14,11 +14,20 @@
     "default_title": "插件11",
     "default_popup": "/popup/index.html"
   },
+  "options_ui": {
+    "page": "/options/index.html",
+    "open_in_tab": true
+  },
+  "side_panel": {
+    "default_path": "/sidepanel/index.html"
+  },
   "permissions": [
     "tabs",
     "contextMenus",
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage",
+    "sidePanel"
   ],
   "host_permissions": [
     "*://*/*"
