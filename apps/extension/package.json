@@ -1,0 +1,41 @@
+{
+  "name": "@vite-crx/extension",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env CRX_ENV=development run-p dev:*",
+    "dev:code": "vite build",
+    "dev:content": "vite build --config vite.content.config.ts",
+    "dev:copy": "node scripts/monitor.js",
+    "build": "cross-env CRX_ENV=production rimraf ../../extension && vite build && vite build --config vite.content.config.ts && node scripts/monitor.js",
+    "clear": "rimraf ../../extension",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@vite-crx/shared": "workspace:*",
+    "element-plus": "^2.14.3",
+    "idb": "^8.0.3",
+    "vue": "^3.5.40"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.5",
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "chokidar": "^5.0.0",
+    "cross-env": "^10.1.0",
+    "fake-indexeddb": "^6.2.5",
+    "fs-extra": "^11.4.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "typescript": "~6.0.3",
+    "unplugin-auto-import": "^21.1.0",
+    "unplugin-vue-components": "^32.1.0",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10",
+    "vue-tsc": "^3.3.9",
+    "ws": "^8.21.1"
+  }
+}

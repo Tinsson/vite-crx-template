@@ -1,31 +1,66 @@
 # vite-crx-template
 
-简单好用的chrome插件开发模板
+Chrome Extension (MV3) + Hono/Bun 服务端最小可用模板。pnpm monorepo，一键脚手架生成。
 
-## Features
+## 环境要求
 
-- 🚀 支持V3版本的manifest
-- 🖥 支持background,contentScript,popup的热更新，contentScript支持按窗口重注入
-- 📦 vite 8 + vue3 + elementplus + typescript
-- 🔔 统一的类型化消息通信（contentScript ↔ background ↔ popup）
+- Node.js >= 22
+- pnpm >= 11.22.0（见根 `package.json` 的 `packageManager`）
+- Bun >= 1.3（server 运行时）
+
+## 目录结构
+
+```
+apps/
+  extension/          Chrome 扩展（Vite 8 + Vue 3 + Element Plus + TypeScript）
+  server/             Hono + Bun 服务（HTTP + WebSocket）
+packages/
+  shared/             扩展与服务端共享的类型、协议、常量
+  create-vite-crx/    脚手架 CLI
+```
+
+## 快速开始
+
+```bash
+# 使用脚手架创建项目
+npx create-vite-crx my-project
+cd my-project
+pnpm dev
+```
+
+本地测试脚手架：
+
+```bash
+pnpm build:cli      # 构建 CLI 与模板快照
+pnpm pack:cli       # 打包为 .tgz，可 npm install -g 或 npx 本地路径
+```
 
 ## 开发
 
-拉取代码后
-
 ```bash
-pnpm i
-pnpm dev
-```
-开发环境，调试用的结果代码放在根目录 `local` 文件夹下
-
-## 发布打包
-
-拉取代码后
-
-```bash
-pnpm build
+pnpm install
+pnpm dev            # 同时启动扩展 watch 构建与服务端热重载
 ```
 
-生成环境，代码放在根目录 `extension` 文件夹下
+- `dev:extension` — 仅启动扩展 watch 构建
+- `dev:server` — 仅启动服务端
 
+扩展产物输出到仓库根目录 `local/`，在 `chrome://extensions` 开启开发者模式后「加载已解压的扩展程序」选择该目录。
+
+## 服务端
+
+| 端点 | 地址 |
+|------|------|
+| HTTP 健康检查 | `http://localhost:8787/api/health` |
+| WebSocket | `ws://localhost:8787/ws` |
+
+Popup 通过 Background 发起 HTTP 健康检查与 WebSocket 连接验证。心跳由服务端定时发送 ping，Background 回复 pong；超时则服务端主动断开。
+
+## 构建与测试
+
+```bash
+pnpm build          # 生产构建扩展，产物在仓库根目录 extension/
+pnpm typecheck      # 全工作区类型检查
+pnpm test           # 全工作区单元测试
+pnpm lint           # ESLint 检查
+```

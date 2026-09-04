@@ -1,0 +1,54 @@
+{
+  "name": "我的Chrome插件",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "author": "dty6809183@gmail.com",
+  "description": "TinssonTai的插件模板",
+  "icons": {
+    "16": "/assets/dev.png",
+    "48": "/assets/dev.png",
+    "96": "/assets/dev.png",
+    "128": "/assets/dev.png"
+  },
+  "action": {
+    "default_title": "插件11",
+    "default_popup": "/popup/index.html"
+  },
+  "options_ui": {
+    "page": "/options/index.html",
+    "open_in_tab": true
+  },
+  "side_panel": {
+    "default_path": "/sidepanel/index.html"
+  },
+  "permissions": [
+    "tabs",
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage",
+    "sidePanel"
+  ],
+  "minimum_chrome_version": "116",
+  "host_permissions": [
+    "http://localhost:8787/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' http://localhost:8787 ws://localhost:8787"
+  },
+  "background": {
+    "service_worker": "/background/index.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["/contentScript/index.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [{
+    "resources": ["contentScript/style.css"],
+    "matches": ["<all_urls>"]
+  }]
+}

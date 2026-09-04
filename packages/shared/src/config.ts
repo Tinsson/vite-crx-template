@@ -1,0 +1,9 @@
+export const SERVER_HOST = 'localhost'
+export const SERVER_PORT = 8787
+export const HTTP_BASE_URL = `http://${SERVER_HOST}:${SERVER_PORT}`
+export const WS_URL = `ws://${SERVER_HOST}:${SERVER_PORT}/ws`
+export const HTTP_TIMEOUT_MS = 5_000
+export const WS_CONNECT_TIMEOUT_MS = 5_000
+export const WS_REQUEST_TIMEOUT_MS = 5_000
+export const HEARTBEAT_INTERVAL_MS = 20_000
+export const HEARTBEAT_TIMEOUT_MS = 30_000
