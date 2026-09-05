@@ -47,6 +47,8 @@ pnpm dev            # 同时启动扩展 watch 构建与服务端热重载
 
 扩展产物输出到仓库根目录 `local/`，在 `chrome://extensions` 开启开发者模式后「加载已解压的扩展程序」选择该目录。
 
+开发构建会在生成 `local/manifest.json` 时自动向 `host_permissions` 添加 `<all_urls>`，供 contentScript 热更新通过 `chrome.scripting.executeScript` 重新注入当前页面；同时会加入连接本地 8801 热更新服务所需的 CSP。源码 `apps/extension/src/manifest.json` 不会被修改，`pnpm build` 生成的生产扩展也不会包含这两项仅开发环境需要的权限。首次加载或开发 manifest 权限变化后，请在 `chrome://extensions` 中重新加载扩展。
+
 ## 服务端
 
 | 端点 | 地址 |

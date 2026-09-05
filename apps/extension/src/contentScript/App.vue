@@ -9,6 +9,7 @@ export default defineComponent({
     ElDialog
   },
   setup() {
+    const showButton = ref<boolean>(false)
     const dialogVisible = ref<boolean>(false)
     const cache = ref<string>('')
 
@@ -34,6 +35,7 @@ export default defineComponent({
     return {
       cache,
       dialogVisible,
+      showButton,
       handleClose,
       handleOpen
     }
@@ -43,7 +45,9 @@ export default defineComponent({
 
 <template>
   <div data-root="true" class="root">
-    <el-button type="primary" @click="handleOpen">Open11</el-button>
+    <el-button v-show="showButton" type="primary" @click="handleOpen"
+      >Open</el-button
+    >
 
     <el-dialog
       v-model="dialogVisible"
