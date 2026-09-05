@@ -1,57 +1,37 @@
 {
   "name": "vite-crx-template",
-  "version": "0.0.1",
-  "description": "Simple Chrome Extension Vite Starter Template",
+  "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "dev": "cross-env CRX_ENV=development run-p dev:*",
-    "dev:code": "vite build",
-    "dev:content": "vite build --config vite.content.config.ts",
-    "dev:copy": "node scripts/monitor.js",
-    "build": "cross-env CRX_ENV=production rimraf extension && vite build && vite build --config vite.content.config.ts && node scripts/monitor.js",
-    "clear": "rimraf extension",
-    "lint": "eslint src",
-    "typecheck": "vue-tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "dev": "pnpm --parallel --filter @vite-crx/extension --filter @vite-crx/server dev",
+    "dev:extension": "pnpm --filter @vite-crx/extension dev",
+    "dev:server": "pnpm --filter @vite-crx/server dev",
+    "build": "pnpm --filter @vite-crx/extension build",
+    "clear": "pnpm --filter @vite-crx/extension clear",
+    "lint": "eslint apps/extension/src packages",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "build:cli": "pnpm --filter create-vite-crx build",
+    "pack:cli": "pnpm --filter create-vite-crx pack",
     "prepare": "husky"
   },
-  "author": "TinssonTai",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.0.0",
-    "@types/chrome": "^0.2.5",
-    "@types/node": "^24.0.0",
-    "@vitejs/plugin-vue": "^6.0.8",
-    "chokidar": "^5.0.0",
-    "cross-env": "^10.1.0",
     "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-vue": "^10.10.0",
-    "fake-indexeddb": "^6.2.5",
-    "fs-extra": "^11.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
-    "npm-run-all": "^4.1.5",
     "prettier": "^3.9.6",
-    "rimraf": "^6.0.1",
-    "typescript": "~6.0.3",
-    "typescript-eslint": "^8.65.0",
-    "unplugin-auto-import": "^21.1.0",
-    "unplugin-vue-components": "^32.1.0",
-    "vite": "^8.2.0",
-    "vitest": "^4.1.10",
-    "vue-eslint-parser": "^10.3.0",
-    "vue-tsc": "^3.3.9",
-    "ws": "^8.21.1"
-  },
-  "dependencies": {
-    "element-plus": "^2.14.3",
-    "idb": "^8.0.3",
-    "vue": "^3.5.40"
+    "typescript-eslint": "^8.65.0"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,vue}": "eslint --quiet"
+    "{apps,packages}/**/*.{js,ts,vue}": "eslint --quiet"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@vite-crx/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vite-crx/shared": "workspace:*",
+    "hono": "^4.13.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0",
+    "typescript": "~6.0.3"
+  }
+}

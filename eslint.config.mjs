@@ -7,11 +7,12 @@ export default [
   {
     ignores: [
       'dist',
+      '**/dist/**',
       'local',
       'extension',
       'node_modules',
-      'src/auto-imports.d.ts',
-      'src/components.d.ts'
+      'apps/extension/src/auto-imports.d.ts',
+      'apps/extension/src/components.d.ts'
     ]
   },
   js.configs.recommended,
