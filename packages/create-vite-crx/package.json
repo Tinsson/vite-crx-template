@@ -1,13 +1,36 @@
 {
   "name": "create-vite-crx",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "Scaffold a Chrome Extension (MV3) with Vite, Vue, TypeScript, Hono, and Bun.",
   "type": "module",
   "bin": {
     "create-vite-crx": "dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "vite",
+    "vue",
+    "hono",
+    "bun",
+    "scaffold"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tinsson/vite-crx-template.git",
+    "directory": "packages/create-vite-crx"
+  },
+  "homepage": "https://github.com/Tinsson/vite-crx-template#readme",
+  "bugs": {
+    "url": "https://github.com/Tinsson/vite-crx-template/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22"
   },

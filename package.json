@@ -17,9 +17,13 @@
     "test": "pnpm -r --if-present test",
     "build:cli": "pnpm --filter create-vite-crx build",
     "pack:cli": "pnpm --filter create-vite-crx pack",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm lint && pnpm typecheck && pnpm test && pnpm build:cli && changeset publish",
     "prepare": "husky"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.1",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.0.0",
     "eslint": "^10.8.0",

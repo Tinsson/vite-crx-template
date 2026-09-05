@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { templatePackage } from './template-package.mjs'
 
 const packageDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const root = resolve(packageDir, '..', '..')
@@ -40,13 +41,6 @@ async function copyDirectory(source, destination) {
       )
     }
   })
-}
-
-function templatePackage(source) {
-  const result = JSON.parse(JSON.stringify(source))
-  for (const script of ['build:cli', 'pack:cli', 'prepack'])
-    delete result.scripts?.[script]
-  return result
 }
 
 await rm(template, { recursive: true, force: true })
