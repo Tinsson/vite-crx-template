@@ -1,5 +1,7 @@
 # vite-crx-template
 
+[![npm version](https://img.shields.io/npm/v/create-vite-crx.svg)](https://www.npmjs.com/package/create-vite-crx)
+
 Chrome Extension (MV3) + Hono/Bun 服务端最小可用模板。pnpm monorepo，一键脚手架生成。
 
 ## 环境要求
@@ -20,6 +22,8 @@ packages/
 ```
 
 ## 快速开始
+
+脚手架已发布至 npm：[create-vite-crx](https://www.npmjs.com/package/create-vite-crx)。
 
 ```bash
 # 使用脚手架创建项目
