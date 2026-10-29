@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import type { Plugin } from 'vite'
-import { r, commonConfig } from './vite.config.ts'
+import { r, commonConfig, vuePlugins } from './vite.config.ts'
 import hotReloadContent from './scripts/hot-reload/content.ts'
 import { __DEV__, outputDir } from './const.ts'
 import { resolve } from 'node:path'
@@ -46,5 +46,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [...commonConfig.plugins, contentScriptCss(), hotReloadContent()]
+  plugins: [...vuePlugins('.content'), contentScriptCss(), hotReloadContent()]
 })

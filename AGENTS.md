@@ -37,7 +37,7 @@ packages/create-vite-crx/   脚手架 CLI
 - `const.ts` is the source of truth for environment: `__DEV__` and `outputDir` (`local` vs `extension`) are driven by `CRX_ENV` env var.
 - `package.json` has `"type": "module"`. Vite configs are ESM and use `import.meta.dirname` + explicit `.ts` import extensions (required by Vite 8's native config loader). `scripts/monitor.js` is ESM.
 - Two separate Vite configs, run in parallel by `pnpm dev` / `pnpm build`:
-  - `vite.config.ts` → `background` + `popup` + `options` + `sidepanel` entries, ES format. Element Plus `AutoImport`/`Components` resolvers live in `commonConfig`, so **all** builds get auto-imported components (they generate `src/auto-imports.d.ts` / `src/components.d.ts` — never hand-edit those).
+  - `vite.config.ts` → `background` + `popup` + `options` + `sidepanel` entries, ES format. Element Plus `AutoImport`/`Components` resolvers come from `vuePlugins()` in `vite.config.ts`, so **all** builds get auto-imported components. Each build writes its own declarations (`src/auto-imports.d.ts` / `src/components.d.ts` for pages, `*.content.d.ts` for contentScript) so parallel builds don't overwrite each other — never hand-edit those.
   - `vite.content.config.ts` → `contentScript` entry, **IIFE format**, output under `contentScript/` subdir. Includes an inline CSS plugin that rewrites `:root` → `:host` (shadow DOM) and guarantees `contentScript/style.css` is always emitted.
 - To add a new extension page/script, register its entry in the relevant `rollupOptions.input` **and** wire copying in `scripts/monitor.js`.
 - `src/manifest.json` (not `public/`) is the extension manifest. Background SW is `/background/index.js` (`"type"`: `"module"`), content script `/contentScript/index.js`.
