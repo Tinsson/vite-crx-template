@@ -10,6 +10,20 @@ import { __DEV__, outputDir } from './const.ts'
 export const r = (...args: string[]) =>
   resolve(import.meta.dirname, '.', ...args)
 
+// 两个构建并行运行，且各自只看到自己入口用到的组件。
+// 因此每个构建写自己的声明文件，避免后跑的构建覆盖掉前一个的类型。
+export const vuePlugins = (dtsSuffix = '') => [
+  Vue(),
+  AutoImport({
+    resolvers: [ElementPlusResolver()],
+    dts: r(`src/auto-imports${dtsSuffix}.d.ts`)
+  }),
+  Components({
+    resolvers: [ElementPlusResolver()],
+    dts: r(`src/components${dtsSuffix}.d.ts`)
+  })
+]
+
 export const commonConfig = {
   root: r('src'),
   define: {
@@ -19,16 +33,7 @@ export const commonConfig = {
     alias: {
       '~/': `${r('src')}/`
     }
-  },
-  plugins: [
-    Vue(),
-    AutoImport({
-      resolvers: [ElementPlusResolver()]
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()]
-    })
-  ]
+  }
 }
 
 export default defineConfig({
@@ -54,5 +59,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [...commonConfig.plugins, hotReloadBackground()]
+  plugins: [...vuePlugins(), hotReloadBackground()]
 })

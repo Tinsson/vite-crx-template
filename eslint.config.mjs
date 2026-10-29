@@ -12,7 +12,9 @@ export default [
       'extension',
       'node_modules',
       'apps/extension/src/auto-imports.d.ts',
-      'apps/extension/src/components.d.ts'
+      'apps/extension/src/components.d.ts',
+      'apps/extension/src/auto-imports.content.d.ts',
+      'apps/extension/src/components.content.d.ts'
     ]
   },
   js.configs.recommended,
