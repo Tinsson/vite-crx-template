@@ -70,3 +70,7 @@ pnpm typecheck      # 全工作区类型检查
 pnpm test           # 全工作区单元测试
 pnpm lint           # ESLint 检查
 ```
+
+## 脚手架发布
+
+`create-vite-crx` 使用 Changesets 自动创建版本 PR，合并后发布 npm 包和 GitHub Release。首次配置与日常操作见[发布说明](https://github.com/Tinsson/vite-crx-template/blob/master/docs/releasing.md)。

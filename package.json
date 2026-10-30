@@ -25,7 +25,7 @@
     "pack:cli": "pnpm --filter create-vite-crx pack",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm lint && pnpm typecheck && pnpm test && pnpm build:cli && changeset publish",
+    "release": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:cli && changeset publish",
     "prepare": "husky"
   },
   "devDependencies": {
