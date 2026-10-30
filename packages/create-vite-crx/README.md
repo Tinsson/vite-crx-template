@@ -1,73 +1,91 @@
 # create-vite-crx
 
-快速创建一个可直接开发的 Chrome Extension（Manifest V3）全栈项目。
+Scaffold a Chrome Extension (Manifest V3) project with Vite, Vue, TypeScript, and a Hono/Bun server.
 
-生成的 pnpm monorepo 包含：
+[中文说明](https://github.com/Tinsson/vite-crx-template/blob/master/README_zh.md) · [Source code](https://github.com/Tinsson/vite-crx-template) · [Report an issue](https://github.com/Tinsson/vite-crx-template/issues)
 
-- Vite 8、Vue 3、Element Plus 和 TypeScript 扩展前端
-- Background、Popup、Options、Side Panel 和 Content Script 示例
-- Hono + Bun HTTP/WebSocket 服务端
-- 扩展与服务端共享的类型和通信协议
-- 开发构建、Content Script 热更新、测试和代码检查配置
+## What's included
 
-## 环境要求
+- A pnpm monorepo with Vite 8, Vue 3, Element Plus, and TypeScript
+- Background service worker, Popup, Options, Side Panel, and Content Script examples
+- A Content Script mounted in Shadow DOM, with development hot reload
+- A Hono + Bun server with HTTP and WebSocket examples
+- Shared types and messaging protocols for the extension and server
+- Production builds, unit tests, type checking, and ESLint configuration
+
+## Requirements
 
 - Node.js >= 22
-- pnpm >= 11
-- Bun >= 1.3（运行服务端时需要）
+- pnpm >= 11.22.0
+- Bun >= 1.3 to run the server
 - Chrome >= 116
 
-## 创建项目
+Install pnpm before running the scaffold command, including when using npm or npx. The generated project uses pnpm to install and manage dependencies.
 
-使用 npm：
+## Create a project
+
+Using npm:
 
 ```bash
 npm create vite-crx@latest my-extension
 ```
 
-也可以使用 pnpm 或 npx：
+Or use pnpm or npx:
 
 ```bash
 pnpm create vite-crx my-extension
 npx create-vite-crx@latest my-extension
 ```
 
-项目名只能包含小写字母、数字、点、下划线和连字符，并且必须以字母或数字开头。CLI 创建项目后会自动执行 `pnpm install`。
+Provide a project name using lowercase letters, numbers, dots, underscores, or hyphens, starting with a letter or number. The target directory must be new or empty. The CLI creates the project and runs `pnpm install` automatically.
 
-## 开始开发
+## Start development
 
 ```bash
 cd my-extension
 pnpm dev
 ```
 
-打开 `chrome://extensions`，开启“开发者模式”，选择“加载已解压的扩展程序”，然后加载项目根目录下生成的 `local/` 目录。
+This starts the extension watch build and the Bun/Hono server at `http://localhost:8787`.
 
-`pnpm dev` 会同时启动：
+To load the extension in Chrome:
 
-- 扩展 watch 构建和本地热更新
-- `http://localhost:8787` 上的 Bun/Hono 服务端
+1. Open `chrome://extensions`.
+2. Enable **Developer mode**.
+3. Click **Load unpacked** and select the generated project's `local/` directory.
 
-## 常用命令
+Keep `pnpm dev` running while developing. The extension must be loaded from `local/` for development hot reload to work. Reload the extension from `chrome://extensions` after changes to manifest permissions.
+
+## Commands
+
+Run these commands from the generated project's root directory:
 
 ```bash
-pnpm dev              # 同时启动扩展和服务端
-pnpm dev:extension    # 仅启动扩展
-pnpm dev:server       # 仅启动服务端
-pnpm build            # 构建生产扩展到 extension/
-pnpm lint             # 运行 ESLint
-pnpm typecheck        # 全工作区类型检查
-pnpm test             # 全工作区测试
+pnpm dev              # Watch the extension and run the server
+pnpm dev:extension    # Watch the extension only
+pnpm dev:server       # Run the server only
+pnpm build            # Build the production extension into extension/
+pnpm lint             # Run ESLint
+pnpm typecheck        # Type-check all workspace packages
+pnpm test             # Run workspace tests
 ```
 
-## 项目结构
+To try the production build locally, run `pnpm build`, then use **Load unpacked** in Chrome to load the `extension/` directory.
+
+## Project structure
 
 ```text
 apps/
   extension/          Chrome Extension (MV3)
-  server/             Hono + Bun HTTP/WebSocket 服务
+  server/             Hono + Bun HTTP/WebSocket server
 packages/
-  shared/             共享类型、协议和常量
+  shared/             Shared types, protocols, and constants
 ```
 
-更多开发说明和源码请访问 [vite-crx-template](https://github.com/Tinsson/vite-crx-template)。
+## Troubleshooting
+
+- **Dependency installation failed:** The generated files are preserved. Run `pnpm install` again inside the project directory.
+- **Bun was not found:** Install Bun >= 1.3 to run the server, or use `pnpm dev:extension` to work on the extension alone.
+- **The target directory is not empty:** Choose a new project name or an empty directory.
+
+For Chinese documentation and more development details, see the [中文说明 in the repository](https://github.com/Tinsson/vite-crx-template/blob/master/README_zh.md).
