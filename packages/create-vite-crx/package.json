@@ -1,6 +1,6 @@
 {
   "name": "create-vite-crx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Scaffold a Chrome Extension (MV3) with Vite, Vue, TypeScript, Hono, and Bun.",
   "type": "module",
   "bin": {
