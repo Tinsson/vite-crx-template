@@ -8,7 +8,7 @@
     "dev:code": "vite build",
     "dev:content": "vite build --config vite.content.config.ts",
     "dev:copy": "node scripts/monitor.js",
-    "build": "cross-env CRX_ENV=production rimraf ../../extension && vite build && vite build --config vite.content.config.ts && node scripts/monitor.js",
+    "build": "cross-env CRX_ENV=production node scripts/clean.js && vite build && vite build --config vite.content.config.ts && node scripts/monitor.js",
     "clear": "rimraf ../../extension",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",

@@ -1,3 +1,5 @@
+import type { UpdateEventKind, UpdateStatus } from './update.ts'
+
 export class ProtocolError extends Error {
   readonly code: string
 
@@ -18,13 +20,29 @@ export type PingMessage = BaseMessage<'ping', { timestamp: string }>
 export type PongMessage = BaseMessage<'pong', { timestamp: string }>
 export type EchoRequest = BaseMessage<'echo-request', { text: string }>
 export type EchoResponse = BaseMessage<'echo-response', { text: string }>
+/** 服务端推送更新事件，附带最新的完整状态快照 */
+export type UpdateEventMessage = BaseMessage<
+  'update-event',
+  { kind: UpdateEventKind; status: UpdateStatus }
+>
 
 export type ClientMessage = PongMessage | EchoRequest
-export type ServerMessage = PingMessage | EchoResponse
+export type ServerMessage = PingMessage | EchoResponse | UpdateEventMessage
 export type WebSocketMessage = ClientMessage | ServerMessage
 
 const CLIENT_TYPES: ReadonlySet<string> = new Set(['pong', 'echo-request'])
-const SERVER_TYPES: ReadonlySet<string> = new Set(['ping', 'echo-response'])
+const SERVER_TYPES: ReadonlySet<string> = new Set([
+  'ping',
+  'echo-response',
+  'update-event'
+])
+
+const UPDATE_EVENT_KINDS: ReadonlySet<string> = new Set([
+  'checked',
+  'progress',
+  'ready',
+  'failed'
+])
 
 type RawMessage = { type: string; id: string; data: Record<string, unknown> }
 
@@ -122,6 +140,25 @@ export function parseServerMessage(raw: unknown): ServerMessage {
   if (type === 'ping') {
     const timestamp = requireDataString(data, 'timestamp')
     return { type: 'ping', id, data: { timestamp } }
+  }
+
+  if (type === 'update-event') {
+    const kind = requireDataString(data, 'kind')
+    if (!UPDATE_EVENT_KINDS.has(kind)) {
+      throw new ProtocolError(
+        'INVALID_FIELD_VALUE',
+        `Unknown update event kind: "${kind}"`
+      )
+    }
+    const status = requireObjectField(data, 'status')
+    return {
+      type: 'update-event',
+      id,
+      data: {
+        kind: kind as UpdateEventKind,
+        status: status as unknown as UpdateStatus
+      }
+    }
   }
 
   const text = requireDataString(data, 'text')

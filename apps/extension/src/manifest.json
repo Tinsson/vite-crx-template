@@ -27,7 +27,8 @@
     "activeTab",
     "scripting",
     "storage",
-    "sidePanel"
+    "sidePanel",
+    "alarms"
   ],
   "minimum_chrome_version": "116",
   "host_permissions": [

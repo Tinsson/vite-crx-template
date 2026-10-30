@@ -9,7 +9,11 @@
  *   - contentScript / popup / options -> background：sendMessage
  *   - background -> contentScript：sendMessageToTab（配合 tabs.sendMessage）
  */
-import type { HealthResponse } from '@vite-crx/shared'
+import type {
+  HealthResponse,
+  UpdateConfig,
+  UpdateStatus
+} from '@vite-crx/shared'
 
 export type NetworkErrorCode =
   'SERVICE_UNAVAILABLE' | 'TIMEOUT' | 'PROTOCOL_ERROR' | 'CONNECTION_CLOSED'
@@ -28,6 +32,15 @@ export type WebSocketConnectionState =
 export interface WebSocketStatusResponse {
   state: WebSocketConnectionState
   error: SerializableNetworkError | null
+}
+
+/** 当前加载的扩展自身的版本信息 */
+export interface LocalVersionInfo {
+  version: string
+  versionName: string
+  commit: string | null
+  /** 最近一次由 daemon 触发的自动重载 */
+  lastUpdate: { version: string; commit: string; at: number } | null
 }
 
 export interface TaskMap {
@@ -64,6 +77,20 @@ export interface TaskMap {
     params: { text: string }
     response: NetworkResult<{ text: string }>
   }
+  /** daemon 更新状态（经 background 访问本地服务） */
+  'update-status': { params: void; response: NetworkResult<UpdateStatus> }
+  /** 立即执行一次 git fetch + 版本检查 */
+  'update-check': { params: void; response: NetworkResult<UpdateStatus> }
+  /** 手动拉取并重新构建，不看版本号 */
+  'update-run': { params: void; response: NetworkResult<UpdateStatus> }
+  /** 修改自动更新开关 / 检查间隔 */
+  'update-set-config': {
+    params: Partial<UpdateConfig>
+    response: NetworkResult<UpdateStatus>
+  }
+  'update-local-info': { params: void; response: LocalVersionInfo }
+  /** background -> popup / options：更新状态变化广播 */
+  'update-changed': { params: UpdateStatus; response: void }
 }
 
 export type TaskId = keyof TaskMap
