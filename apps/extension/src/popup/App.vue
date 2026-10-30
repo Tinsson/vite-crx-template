@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 import { sendMessage } from '~/shared/message'
 import { getCurrentWindowId } from '~/shared/sidePanel'
 import type { NetworkErrorCode } from '~/shared/message'
+import UpdatePanel from './UpdatePanel.vue'
 
 const errorLabels: Record<NetworkErrorCode, string> = {
   SERVICE_UNAVAILABLE: '服务不可用',
@@ -17,6 +18,7 @@ function formatError(code: NetworkErrorCode, message: string): string {
 }
 
 export default defineComponent({
+  components: { UpdatePanel },
   setup() {
     const enabled = ref(true)
     const count = ref(0)
@@ -163,6 +165,10 @@ export default defineComponent({
 
 <template>
   <div class="popup">
+    <UpdatePanel />
+
+    <el-divider />
+
     <h3>popup 设置示例</h3>
     <div class="row">
       <span>功能开关</span>
@@ -230,7 +236,7 @@ export default defineComponent({
 <style scoped>
 .popup {
   padding: 12px;
-  min-width: 160px;
+  width: 320px;
 }
 .row {
   display: flex;

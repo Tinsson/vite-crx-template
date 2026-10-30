@@ -2,8 +2,14 @@ import { describe, it, expect } from 'vitest'
 import {
   transformManifest,
   applyDevCsp,
-  applyDevHostPermission
+  applyDevHostPermission,
+  DEV_SERVER_PORT,
+  DAEMON_PORT
 } from './transformManifest.js'
+import {
+  SERVER_PORT,
+  DAEMON_PORT as SHARED_DAEMON_PORT
+} from '@vite-crx/shared'
 
 const baseCsp =
   "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' http://localhost:8787 ws://localhost:8787"
@@ -49,7 +55,38 @@ describe('transformManifest', () => {
     const result = transformManifest(baseManifest(), false)
     const csp = result.content_security_policy.extension_pages
     expect(csp).not.toContain('ws://127.0.0.1:8801')
-    expect(csp).toContain('http://localhost:8787')
+  })
+
+  it('prod points host permission and CSP to the daemon port', () => {
+    const result = transformManifest(baseManifest(), false)
+    const csp = result.content_security_policy.extension_pages
+    expect(csp).toContain('http://localhost:8788')
+    expect(csp).toContain('ws://localhost:8788')
+    expect(csp).not.toContain('8787')
+    expect(result.host_permissions).toEqual(['http://localhost:8788/*'])
+  })
+
+  it('dev keeps the dev server port', () => {
+    const result = transformManifest(baseManifest(), true)
+    expect(result.host_permissions).toContain('http://localhost:8787/*')
+    expect(result.content_security_policy.extension_pages).not.toContain('8788')
+  })
+
+  it('writes commit into version_name when given', () => {
+    const result = transformManifest(
+      { ...baseManifest(), version: '0.0.3' },
+      false,
+      { commit: 'abc1234' }
+    )
+    expect(result.version_name).toBe('0.0.3 (abc1234)')
+    expect(transformManifest(baseManifest(), false).version_name).toBe(
+      undefined
+    )
+  })
+
+  it('ports match packages/shared', () => {
+    expect(DEV_SERVER_PORT).toBe(SERVER_PORT)
+    expect(DAEMON_PORT).toBe(SHARED_DAEMON_PORT)
   })
 
   it('adds <all_urls> host permission only in dev', () => {

@@ -1,6 +1,8 @@
 export interface HealthResponse {
   status: 'ok'
   timestamp: string
+  /** dev：`pnpm dev` 启动的服务端；daemon：常驻进程 */
+  mode?: 'dev' | 'daemon'
 }
 
 export function isHealthResponse(value: unknown): value is HealthResponse {

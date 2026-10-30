@@ -4,8 +4,9 @@ import App from './App.vue'
 ;(() => {
   const rootIdName = 'vite_crx_content_script'
   const beforeRoot = document.querySelector(`#${rootIdName}`)
-  if (beforeRoot && __DEV__) {
-    document.body.removeChild(beforeRoot)
+  // 热更新或 daemon 自动更新后会重新注入，先移除旧实例，避免页面上出现两个
+  if (beforeRoot) {
+    beforeRoot.remove()
   }
   const container = document.createElement('div')
   container.id = rootIdName

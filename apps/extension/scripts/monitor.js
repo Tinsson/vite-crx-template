@@ -5,6 +5,7 @@ import process from 'process'
 import console from 'console'
 import { fileURLToPath } from 'url'
 import { transformManifest } from './transformManifest.js'
+import { resolveOutputDir } from './outputDir.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -12,10 +13,10 @@ const extensionRoot = path.resolve(__dirname, '..')
 const workspaceRoot = path.resolve(extensionRoot, '../..')
 const fromExtension = (relativePath) =>
   path.resolve(extensionRoot, relativePath)
-const fromWorkspace = (relativePath) =>
-  path.resolve(workspaceRoot, relativePath)
 const __DEV__ = process.env.CRX_ENV === 'development'
-const outputDir = __DEV__ ? 'local' : 'extension'
+const outputDir = resolveOutputDir(workspaceRoot)
+// daemon 构建时传入当前 commit，写进 manifest 的 version_name
+const buildCommit = process.env.CRX_BUILD_COMMIT
 
 const origin = {
   manifest: fromExtension('src/manifest.json'),
@@ -23,14 +24,16 @@ const origin = {
 }
 
 const target = {
-  manifest: fromWorkspace(`${outputDir}/manifest.json`),
-  assets: fromWorkspace(`${outputDir}/assets`)
+  manifest: path.join(outputDir, 'manifest.json'),
+  assets: path.join(outputDir, 'assets')
 }
 
 const copyManifest = async () => {
   const raw = await fs.readFile(origin.manifest, 'utf-8')
   const manifest = JSON.parse(raw)
-  const transformed = transformManifest(manifest, __DEV__)
+  const transformed = transformManifest(manifest, __DEV__, {
+    commit: buildCommit
+  })
   await fs.writeFile(
     target.manifest,
     JSON.stringify(transformed, null, 2),
@@ -39,17 +42,13 @@ const copyManifest = async () => {
 }
 const copyIndexHtml = async () => {
   for (const view of ['popup', 'options', 'sidepanel']) {
-    await fs.ensureDir(fromWorkspace(`${outputDir}/${view}`))
+    await fs.ensureDir(path.join(outputDir, view))
     let data = await fs.readFile(
       fromExtension(`src/${view}/index.html`),
       'utf-8'
     )
     data = data.replace(/\.ts/g, '.js')
-    await fs.writeFile(
-      fromWorkspace(`${outputDir}/${view}/index.html`),
-      data,
-      'utf-8'
-    )
+    await fs.writeFile(path.join(outputDir, view, 'index.html'), data, 'utf-8')
   }
   console.log('复制html文件成功')
 }

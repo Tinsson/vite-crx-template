@@ -1,10 +1,11 @@
 import {
   WS_CONNECT_TIMEOUT_MS,
   WS_REQUEST_TIMEOUT_MS as WS_ECHO_TIMEOUT_MS,
-  WS_URL,
   parseServerMessage,
   serializeMessage
 } from '@vite-crx/shared'
+import type { UpdateEventMessage } from '@vite-crx/shared'
+import { SERVER_WS_URL } from '~/shared/serverUrl'
 import type {
   NetworkResult,
   SerializableNetworkError,
@@ -29,6 +30,8 @@ export interface WebSocketClientDeps {
   setTimeout?: (callback: () => void, ms: number) => TimerId
   clearTimeout?: (id: TimerId) => void
   createId?: () => string
+  /** 服务端主动推送的更新事件 */
+  onUpdateEvent?: (event: UpdateEventMessage['data']) => void
 }
 
 type PendingEcho = {
@@ -45,6 +48,7 @@ export class WebSocketClient {
   private readonly setTimeout: (callback: () => void, ms: number) => TimerId
   private readonly clearTimeout: (id: TimerId) => void
   private readonly createId: () => string
+  private readonly onUpdateEvent: (event: UpdateEventMessage['data']) => void
   private socket: WebSocketLike | null = null
   private state: WebSocketConnectionState = 'disconnected'
   private connectPromise: Promise<void> | null = null
@@ -61,6 +65,7 @@ export class WebSocketClient {
       deps.clearTimeout ??
       ((id) =>
         globalThis.clearTimeout(id as ReturnType<typeof globalThis.setTimeout>))
+    this.onUpdateEvent = deps.onUpdateEvent ?? (() => undefined)
     this.createId =
       deps.createId ??
       (() =>
@@ -91,7 +96,7 @@ export class WebSocketClient {
 
     let socket: WebSocketLike
     try {
-      socket = this.createWebSocket(WS_URL)
+      socket = this.createWebSocket(SERVER_WS_URL)
     } catch (error) {
       this.failConnection(
         generation,
@@ -197,6 +202,10 @@ export class WebSocketClient {
         socket.send(
           serializeMessage({ type: 'pong', id: message.id, data: message.data })
         )
+        return
+      }
+      if (message.type === 'update-event') {
+        this.onUpdateEvent(message.data)
         return
       }
       const pending = this.pendingEchoes.get(message.id)

@@ -1,8 +1,5 @@
-import {
-  HTTP_BASE_URL,
-  HTTP_TIMEOUT_MS,
-  isHealthResponse
-} from '@vite-crx/shared'
+import { HTTP_TIMEOUT_MS, isHealthResponse } from '@vite-crx/shared'
+import { SERVER_HTTP_BASE } from '~/shared/serverUrl'
 import type { HealthResponse } from '@vite-crx/shared'
 import type { NetworkResult, SerializableNetworkError } from '~/shared/message'
 
@@ -15,7 +12,7 @@ export interface HttpClientDeps {
   clearTimeout?: (id: TimerId) => void
 }
 
-const HEALTH_URL = `${HTTP_BASE_URL}/api/health` as const
+const HEALTH_URL = `${SERVER_HTTP_BASE}/api/health`
 
 export async function fetchHealth(
   deps: HttpClientDeps = {}

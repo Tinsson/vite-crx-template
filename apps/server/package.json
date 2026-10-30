@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --hot src/index.ts",
+    "daemon": "bun scripts/daemon.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
