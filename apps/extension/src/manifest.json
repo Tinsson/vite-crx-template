@@ -1,6 +1,6 @@
 {
   "name": "我的Chrome插件",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 3,
   "author": "dty6809183@gmail.com",
   "description": "TinssonTai的插件模板",
