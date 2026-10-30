@@ -12,15 +12,16 @@ export const r = (...args: string[]) =>
 
 // 两个构建并行运行，且各自只看到自己入口用到的组件。
 // 因此每个构建写自己的声明文件，避免后跑的构建覆盖掉前一个的类型。
+// 声明仅在开发时生成，避免生产构建改动已跟踪源码，阻塞 daemon 下次拉取。
 export const vuePlugins = (dtsSuffix = '') => [
   Vue(),
   AutoImport({
     resolvers: [ElementPlusResolver()],
-    dts: r(`src/auto-imports${dtsSuffix}.d.ts`)
+    dts: __DEV__ ? r(`src/auto-imports${dtsSuffix}.d.ts`) : false
   }),
   Components({
     resolvers: [ElementPlusResolver()],
-    dts: r(`src/components${dtsSuffix}.d.ts`)
+    dts: __DEV__ ? r(`src/components${dtsSuffix}.d.ts`) : false
   })
 ]
 
