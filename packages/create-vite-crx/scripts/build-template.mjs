@@ -49,6 +49,11 @@ for (const directory of directories)
   await copyDirectory(resolve(root, directory), resolve(template, directory))
 for (const file of files) await cp(resolve(root, file), resolve(template, file))
 await cp(resolve(root, '.gitignore'), resolve(template, '_gitignore'))
+await mkdir(resolve(template, 'scripts'), { recursive: true })
+await cp(
+  resolve(root, 'scripts/setup-daemon.sh'),
+  resolve(template, 'scripts/setup-daemon.sh')
+)
 
 const rootPackage = JSON.parse(
   await readFile(resolve(root, 'package.json'), 'utf8')

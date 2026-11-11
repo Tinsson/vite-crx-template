@@ -290,8 +290,7 @@ export class UpdateService {
     state.behind = behind
     state.dirtyFiles = await this.git.dirtyFiles()
     if (behind > 0 && ahead > 0) state.blockedBy = 'diverged'
-    else if (behind > 0 && state.dirtyFiles.length > 0)
-      state.blockedBy = 'dirty'
+    else if (state.dirtyFiles.length > 0) state.blockedBy = 'dirty'
     this.remote = state
   }
 
@@ -362,6 +361,14 @@ export class UpdateService {
           `工作区有未提交的改动，已跳过拉取：${dirtyFiles.slice(0, 5).join('、')}`
         )
       }
+      if (blockedBy === 'detached' || blockedBy === 'no-upstream') {
+        throw new StepError(
+          'pull',
+          blockedBy === 'detached'
+            ? '当前处于 detached HEAD，无法更新'
+            : '当前分支没有上游分支，无法更新'
+        )
+      }
 
       let changed: string[] = []
       if (behind > 0) {
@@ -407,10 +414,25 @@ export class UpdateService {
 
       this.setStep('swap')
       await rm(this.prevDir, { recursive: true, force: true })
-      if (await exists(this.extensionDir)) {
+      const hadPrevious = await exists(this.extensionDir)
+      if (hadPrevious) {
         await rename(this.extensionDir, this.prevDir)
       }
-      await rename(this.stagingDir, this.extensionDir)
+      try {
+        await rename(this.stagingDir, this.extensionDir)
+      } catch (error) {
+        if (hadPrevious) {
+          try {
+            await rename(this.prevDir, this.extensionDir)
+          } catch (rollbackError) {
+            throw new Error(
+              `换盘失败：${errorMessage(error)}；回滚失败：${errorMessage(rollbackError)}`,
+              { cause: rollbackError }
+            )
+          }
+        }
+        throw error
+      }
 
       await this.readInstalled()
       job.state = 'success'
