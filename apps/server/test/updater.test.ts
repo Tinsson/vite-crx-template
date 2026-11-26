@@ -140,6 +140,24 @@ describe('UpdateService check', () => {
 })
 
 describe('UpdateService update pipeline', () => {
+  test('manual update refuses detached, missing upstream and dirty worktrees', async () => {
+    const service = createService()
+    await service.init()
+    await sh(repo, 'git', 'checkout', '-q', '--detach')
+    expect((await service.update('manual')).state).toBe('failed')
+    await sh(repo, 'git', 'checkout', '-q', 'main')
+    await sh(repo, 'git', 'branch', '--unset-upstream')
+    expect((await service.update('manual')).state).toBe('failed')
+    await sh(repo, 'git', 'branch', '--set-upstream-to=origin/main', 'main')
+    await writeFile(
+      join(repo, 'apps/extension/src/manifest.json'),
+      manifest('9.9.9')
+    )
+    expect((await service.update('manual')).state).toBe('failed')
+    expect(service.getStatus().blockedBy).toBe('dirty')
+    expect(pnpmCalls).toEqual([])
+  })
+
   test('auto update pulls, builds into staging and swaps extension/', async () => {
     const service = createService()
     await service.init()
